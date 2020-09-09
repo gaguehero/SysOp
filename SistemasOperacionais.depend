@@ -1,0 +1,15 @@
+# depslib dependency file v1.0
+1440409456 source:/home/gueher0/Documents/SistemasOperacionais/p00/testafila.c
+	<stdio.h>
+	<stdlib.h>
+	<assert.h>
+	"queue.h"
+
+1440409443 /home/gueher0/Documents/SistemasOperacionais/p00/queue.h
+
+1599655973 source:/home/gueher0/Documents/SistemasOperacionais/p00/queue.c
+	<stdio.h>
+	<stdlib.h>
+	<assert.h>
+	"queue.h"
+

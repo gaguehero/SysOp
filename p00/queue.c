@@ -5,13 +5,13 @@
 
 
 void queue_append (queue_t **queue, queue_t *elem) {
-    if(**queue==NULL){ //TESTA LISTA
-        printf("ERRO: LISTA INEXISTENTE");
-        return 0;
-    }
+    if(!queue){
+        printf("ERRO: LISTA INEXISTENTE\n");
+        return NULL;}
+
     if(elem->next!=NULL || elem->prev!=NULL){ //TESTA ELEMENTO
-        printf("ERRO: ELEMENTO JA PRESENTE EM UMA LISTA");
-        return 0;
+        printf("ERRO: ELEMENTO JA PRESENTE EM UMA LISTA\n");
+        return NULL;
     }
     if (*queue==NULL){ //LISTA VAZIA
         *queue=elem;
@@ -25,18 +25,59 @@ void queue_append (queue_t **queue, queue_t *elem) {
         (*queue)->prev=elem; //O PRIMEIRO ELEMENTO TEM UM PONTEIRO DE PREV PARA O NOVO ELEMENTO
     }
 }
+
 queue_t *queue_remove (queue_t **queue, queue_t *elem){
-    if(**queue==NULL){ //TESTA LISTA
-        printf("ERRO: LISTA INEXISTENTE");
-        return NULL;
-    }
-//fazer condicional para testar se elemento presente na lista fazer um for que busca um elemento com mesmo endereço de memória
+    queue_t *aux;
+    int flag=0;
+
+    if(!queue){
+        printf("ERRO: LISTA INEXISTENTE\n");
+        return NULL;}
+
     if (*queue==NULL){ //LISTA VAZIA
-        printf("ERRO: LISTA VAZIA");
+        printf("ERRO: LISTA VAZIA\n");
         return NULL;
     }
+    aux = *queue;
+    do
+    {
+        if(aux==elem){ //testa se o elemento está presente na fila
+            flag++;
+            break;} //aux agora está na posição do elemento
+        aux=aux->next;
+    }
+    while (aux != *queue);
+    if (!flag){//elemento não pertence a lista
+        printf("ERRO: ELEMENTO NÃO PERTENCE A LISTA\n");
+        return NULL;
+    }
+    //agora a lista pode ter apenas 1 elemento ou vários
+    if(elem->next == elem->prev){
+        *queue=NULL;
+        elem->next=NULL;
+        elem->prev=NULL;
+        return elem;}
+    else{
+        elem->next->prev = elem->prev;
+        elem->prev->next = elem->next;
+        elem->next=NULL;
+        elem->prev=NULL;
+        return elem;}
 }
 
+int queue_size (queue_t *queue){
+    queue_t *aux;
+    aux=queue;
+    int contador=0;
+    if (queue==NULL) //LISTA VAZIA
+        return 0;
+    do{
+        aux=aux->next;
+        contador++;}
+    while(aux!=queue);
+    return contador;
+}
+void queue_print (char *name, queue_t *queue, void print_elem (void*) ) {
 
-
+}
 
