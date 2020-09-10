@@ -28,6 +28,9 @@ void queue_append (queue_t **queue, queue_t *elem) {
 
 queue_t *queue_remove (queue_t **queue, queue_t *elem){
     queue_t *aux;
+    queue_t *anterior, *proximo;
+    anterior=elem->prev;
+    proximo=elem->next;
     int flag=0;
 
     if(!queue){
@@ -51,18 +54,16 @@ queue_t *queue_remove (queue_t **queue, queue_t *elem){
         printf("ERRO: ELEMENTO NÃO PERTENCE A LISTA\n");
         return NULL;
     }
-    //agora a lista pode ter apenas 1 elemento ou vários
-    if(elem->next == elem->prev){
-        *queue=NULL;
-        elem->next=NULL;
-        elem->prev=NULL;
-        return elem;}
-    else{
-        elem->next->prev = elem->prev;
-        elem->prev->next = elem->next;
-        elem->next=NULL;
-        elem->prev=NULL;
-        return elem;}
+    anterior->next=elem->next;
+    proximo->prev=elem->prev;
+
+    if(*queue==elem){ //caso especial da remoção do primeiro elemento;
+        *queue=elem->next;
+        if(*queue==elem) //caso especial2 da remoção do único elemento;
+            *queue=NULL;}
+    elem->next=NULL;
+    elem->prev=NULL;
+    return elem;
 }
 
 int queue_size (queue_t *queue){
