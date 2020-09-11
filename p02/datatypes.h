@@ -3,13 +3,16 @@
 // Versão 1.0 -- Março de 2015
 //
 // Estruturas de dados internas do sistema operacional
-
+#include <ucontext.h>
 #ifndef __DATATYPES__
 #define __DATATYPES__
 
 // Estrutura que define uma tarefa
 typedef struct task_t
 {
+    struct task_t *prev, *next; //utlizar com a biblioteca de filas
+    int tid; //ID da tarefa
+    ucontext_t contextoTarefa; //descritor da tarefa
   // preencher quando necessário
 } task_t ;
 

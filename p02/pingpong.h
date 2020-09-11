@@ -8,6 +8,7 @@
 #define __PINGPONG__
 
 #define _XOPEN_SOURCE 600	// para evitar erros POSIX no MacOS X
+#define STACKSIZE 32768		/* tamanho de pilha das threads */
 
 #include "datatypes.h"		// estruturas de dados necessárias
 
