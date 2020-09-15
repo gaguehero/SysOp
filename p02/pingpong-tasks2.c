@@ -7,7 +7,7 @@
 #warning Este codigo foi planejado para ambientes UNIX (LInux, *BSD, MacOS). A compilacao e execucao em outros ambientes e responsabilidade do usuario.
 #endif
 
-#define MAXTASK 1000
+#define MAXTASK 100
 
 task_t task[MAXTASK+1] ;
 
