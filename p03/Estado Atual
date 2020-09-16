@@ -1,0 +1,3 @@
+Eu tô carregando o celular, então se tu ver isso daqui antes, saiba que falta a implementação do task_yield. Provavelmente precise jogar
+o Dispacher pra dentro da fila de prontas, como justamente a tarefa 0 do contador, de qualquer forma eu deixei ele de fora por enquanto.
+Se puder dar uma olhada também no resto da implementação pra ver se tu acha que o que eu fiz faz sentido, fique a vontade.
