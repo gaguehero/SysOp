@@ -31,13 +31,19 @@
 		<Compiler>
 			<Add option="-Wall" />
 		</Compiler>
-		<Unit filename="p00/queue.c">
+		<Unit filename="p03/datatypes.h" />
+		<Unit filename="p03/p03-dispatcher.pdf" />
+		<Unit filename="p03/pingpong-dispatcher.c">
 			<Option compilerVar="CC" />
 		</Unit>
-		<Unit filename="p00/queue.h" />
-		<Unit filename="p00/testafila.c">
+		<Unit filename="p03/pingpong.c">
 			<Option compilerVar="CC" />
 		</Unit>
+		<Unit filename="p03/pingpong.h" />
+		<Unit filename="p03/queue.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="p03/queue.h" />
 		<Extensions />
 	</Project>
 </CodeBlocks_project_file>
