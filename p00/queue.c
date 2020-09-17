@@ -78,7 +78,24 @@ int queue_size (queue_t *queue){
     while(aux!=queue);
     return contador;
 }
-void queue_print (char *name, queue_t *queue, void print_elem (void*) ) {
 
+
+void queue_print (char *name, queue_t *queue, void print_elem (void*) ) {
+    printf("%s: [", name);
+    if(!queue){
+        printf("]\n");
+        return;
+    }
+    queue_t *aux;
+    aux = queue;
+    print_elem (aux);
+    aux = aux->next;
+    while(aux!=queue){
+        printf(" ");
+        print_elem (aux);
+        aux = aux->next;
+    }
+    printf("]\n");
 }
 
+//void queue_print (char *name, queue_t *queue, void print_elem (void*) ){}
