@@ -12,7 +12,7 @@
 #endif
 
 
-task_t *InitTask, *AtualTask, *filaDeProntas;
+task_t *InitTask, *AtualTask, **filaDeProntas;
 task_t MainTask, Dispatcher;
 int contadorTarefas;
 
@@ -66,7 +66,8 @@ int task_create (task_t *task, void (*start_routine)(void *),void *arg){
     }
     makecontext (&(task->contextoTarefa), (void*) (*start_routine), contadorTarefas, arg);
     task->tid = contadorTarefas;
-    queue_append ((queue_t**) &filaDeProntas, (queue_t*) &task) ;
+    queue_append ((queue_t**) &filaDeProntas, (queue_t*) task);
+    printf("task %d criada\n", contadorTarefas);
     contadorTarefas++;
     return task->tid;
 }
@@ -75,10 +76,11 @@ int task_switch (task_t *task){
     //retorno = swapcontext(&(AtualTask->contextoTarefa),&(task->contextoTarefa));
     //AtualTask = task;
     //return retorno;
+    queue_remove((queue_t **) &filaDeProntas, (queue_t*) task);
     task_t *aux;
     aux = AtualTask;
     AtualTask = task;
-    return swapcontext(&(aux->contextoTarefa),&(AtualTask->contextoTarefa));
+    return swapcontext(&(aux->contextoTarefa), &(AtualTask->contextoTarefa));
     }
 
 
@@ -86,7 +88,7 @@ void task_exit(int exit_code){
     //if (exit_code){
     //    task_switch(&Dispatcher);
     //    userTasks--;}
-    queue_remove(&filaDeProntas, AtualTask);
+    queue_remove((queue_t **)&filaDeProntas,(queue_t*) AtualTask);
     task_switch(&Dispatcher);
     }
 
@@ -95,18 +97,20 @@ int task_id(){
 
 task_t* scheduler(){
     //política First Come First served
-    return AtualTask->next;
+    task_t* aux = *filaDeProntas;
+    return aux;
 }
 
 void task_yield () {
-
+    queue_append((queue_t **) &filaDeProntas, (queue_t*) AtualTask);
+    task_switch(&Dispatcher);
 }
 
 
 void dispatcher_body () // dispatcher é uma tarefa
 {
     task_t* next;
-    int userTasks = queue_size(filaDeProntas);
+    int userTasks = queue_size((queue_t *)filaDeProntas);
     while ( userTasks > 0 )
     {
         next = scheduler() ; // scheduler é uma função
@@ -114,7 +118,7 @@ void dispatcher_body () // dispatcher é uma tarefa
         {
             // ações antes de lançar a tarefa "next", se houverem
             task_switch (next) ; // transfere controle para a tarefa "next"
-            userTasks = queue_size(filaDeProntas); //caso task_exit, número de prontas vai diminuir
+            userTasks = queue_size((queue_t *)filaDeProntas); //caso task_exit, número de prontas vai diminuir
             // ações após retornar da tarefa "next", se houverem
         }
     }
