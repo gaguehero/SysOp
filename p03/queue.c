@@ -73,7 +73,7 @@ int queue_size (queue_t *queue){
     if (queue==NULL) //LISTA VAZIA
         return 0;
     do{
-        aux=queue->next;
+        aux=aux->next;
         contador++;}
     while(aux!=queue);
     return contador;

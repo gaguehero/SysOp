@@ -67,7 +67,6 @@ int task_create (task_t *task, void (*start_routine)(void *),void *arg){
     makecontext (&(task->contextoTarefa), (void*) (*start_routine), contadorTarefas, arg);
     task->tid = contadorTarefas;
     queue_append ((queue_t**) &filaDeProntas, (queue_t*) task);
-    printf("task %d criada\n", contadorTarefas);
     contadorTarefas++;
     return task->tid;
 }
@@ -88,8 +87,13 @@ void task_exit(int exit_code){
     //if (exit_code){
     //    task_switch(&Dispatcher);
     //    userTasks--;}
-    queue_remove((queue_t **)&filaDeProntas,(queue_t*) AtualTask);
-    task_switch(&Dispatcher);
+    if(AtualTask==&Dispatcher){
+        queue_append ((queue_t**) &filaDeProntas, (queue_t*) &MainTask);
+        task_switch(&MainTask);
+    }
+    else
+        task_switch(&Dispatcher);
+    contadorTarefas--;
     }
 
 int task_id(){
@@ -97,8 +101,7 @@ int task_id(){
 
 task_t* scheduler(){
     //política First Come First served
-    task_t* aux = *filaDeProntas;
-    return aux;
+    return filaDeProntas;
 }
 
 void task_yield () {
@@ -109,6 +112,7 @@ void task_yield () {
 
 void dispatcher_body () // dispatcher é uma tarefa
 {
+    queue_remove((queue_t **)&filaDeProntas,(queue_t*) &MainTask);
     task_t* next;
     int userTasks = queue_size((queue_t *)filaDeProntas);
     while ( userTasks > 0 )
@@ -117,6 +121,7 @@ void dispatcher_body () // dispatcher é uma tarefa
         if (next)
         {
             // ações antes de lançar a tarefa "next", se houverem
+            queue_append((queue_t **) &filaDeProntas, (queue_t*) &Dispatcher);
             task_switch (next) ; // transfere controle para a tarefa "next"
             userTasks = queue_size((queue_t *)filaDeProntas); //caso task_exit, número de prontas vai diminuir
             // ações após retornar da tarefa "next", se houverem
