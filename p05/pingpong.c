@@ -145,7 +145,7 @@ task_t* scheduler(){
     int i, j; //contador para navegação da fila de prontas e numero de tarefas na fila
     task_t *auxprox, *auxatual; //variaveis para retorno e comparação de prioridades
     j = queue_size((queue_t *)filaDeProntas);
-    auxatual = *filaDeProntas;
+    auxatual = filaDeProntas;
     auxprox = auxatual->next;
     for(i=0; i<j-1; i++){
         //se a prioridade de retorno tem a prioridade maior ela é ajustada
