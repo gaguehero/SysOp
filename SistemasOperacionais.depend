@@ -63,3 +63,61 @@
 1600273862 /home/gueher0/Documents/SistemasOperacionais/p03/datatypes.h
 	<ucontext.h>
 
+1427481559 source:/home/gueher0/Documents/SistemasOperacionais/p05/pingpong-preempcao.c
+	<stdio.h>
+	<stdlib.h>
+	"pingpong.h"
+
+1601466298 /home/gueher0/Documents/SistemasOperacionais/p05/pingpong.h
+	"datatypes.h"
+
+1601469899 /home/gueher0/Documents/SistemasOperacionais/p05/datatypes.h
+	<ucontext.h>
+
+1601471212 source:/home/gueher0/Documents/SistemasOperacionais/p05/pingpong.c
+	<stdio.h>
+	<stdlib.h>
+	<ucontext.h>
+	<signal.h>
+	<sys/time.h>
+	"pingpong.h"
+	"datatypes.h"
+	"queue.h"
+
+1601466298 /home/gueher0/Documents/SistemasOperacionais/p05/queue.h
+
+1601466298 source:/home/gueher0/Documents/SistemasOperacionais/p05/queue.c
+	<stdio.h>
+	<stdlib.h>
+	<assert.h>
+	"queue.h"
+
+1428420708 source:/home/gueher0/Documents/SistemasOperacionais/p06/pingpong-contab.c
+	<stdio.h>
+	<stdlib.h>
+	"pingpong.h"
+
+1601466298 /home/gueher0/Documents/SistemasOperacionais/p06/pingpong.h
+	"datatypes.h"
+
+1601909500 /home/gueher0/Documents/SistemasOperacionais/p06/datatypes.h
+	<ucontext.h>
+
+1601466298 source:/home/gueher0/Documents/SistemasOperacionais/p06/queue.c
+	<stdio.h>
+	<stdlib.h>
+	<assert.h>
+	"queue.h"
+
+1601466298 /home/gueher0/Documents/SistemasOperacionais/p06/queue.h
+
+1601909864 source:/home/gueher0/Documents/SistemasOperacionais/p06/pingpong.c
+	<stdio.h>
+	<stdlib.h>
+	<ucontext.h>
+	<signal.h>
+	<sys/time.h>
+	"pingpong.h"
+	"datatypes.h"
+	"queue.h"
+
