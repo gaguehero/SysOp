@@ -169,7 +169,7 @@ task_t* scheduler(){
     }
     //criei outra variavel para não confundir com as de cima
     //aqui será ajustada a prioridade dinamica das tarefas não escolhidas
-    task_t *aux = *filaDeProntas;
+    task_t *aux = filaDeProntas;
     int alfa = -1;
     for(i=0; i<j; i++){
         //compara se é a tarefa escolhida ou se possui a prioridade máxima
@@ -236,12 +236,11 @@ void task_setUsuario (task_t *task, int flag){
 
 void tratador (int signum)
 {
-    relogio++;
     if(!(ticksTarefa) && (AtualTask->flagUsuario))
         task_yield();
     else
-        {if(ticksTarefa)
-            ticksTarefa--;}
+            ticksTarefa--;
+    relogio++;
 }
 
 unsigned int systime ()
