@@ -153,7 +153,7 @@ task_t* scheduler(){
     int i, j; //contador para navegação da fila de prontas e numero de tarefas na fila
     task_t *auxprox, *auxatual; //variaveis para retorno e comparação de prioridades
     j = queue_size((queue_t *)filaDeProntas);
-    auxatual = filaDeProntas; //tava aqui o erro kkkk, era "auxatual = *filaDeProntas"
+    auxatual =(task_t *) filaDeProntas; //tava aqui o erro kkkk, era "auxatual = *filaDeProntas"
     auxprox = auxatual->next;
     for(i=0; i<j-1; i++){
         //se a prioridade de retorno tem a prioridade maior ela é ajustada
@@ -169,7 +169,7 @@ task_t* scheduler(){
     }
     //criei outra variavel para não confundir com as de cima
     //aqui será ajustada a prioridade dinamica das tarefas não escolhidas
-    task_t *aux = filaDeProntas;
+    task_t *aux =(task_t *) filaDeProntas;
     int alfa = -1;
     for(i=0; i<j; i++){
         //compara se é a tarefa escolhida ou se possui a prioridade máxima
@@ -196,7 +196,6 @@ void dispatcher_body () // dispatcher é uma tarefa
     //queue_remove((queue_t **) &filaDeProntas, (queue_t*) &INIT);
     task_t* next;
     int userTasks = queue_size((queue_t *)filaDeProntas);
-    int j;
     while ( userTasks > 0 )
     {
         next = scheduler() ; // scheduler é uma função
@@ -221,10 +220,11 @@ void task_setprio (task_t *task, int prio){
     //limites de valor para a prioridade
     if((prio<-20)||(prio>20)){
         printf("valor de prioridade invalido");
-        return NULL;
     }
+    else{
     task->prios = prio;
     task->priod = prio;
+    }
 }
 
 int task_getprio (task_t *task){
