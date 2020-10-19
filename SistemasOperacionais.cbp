@@ -31,18 +31,18 @@
 		<Compiler>
 			<Add option="-Wall" />
 		</Compiler>
-		<Unit filename="p06/datatypes.h" />
-		<Unit filename="p06/pingpong-contab.c">
+		<Unit filename="p08/datatypes.h" />
+		<Unit filename="p08/pingpong-join.c">
 			<Option compilerVar="CC" />
 		</Unit>
-		<Unit filename="p06/pingpong.c">
+		<Unit filename="p08/pingpong.c">
 			<Option compilerVar="CC" />
 		</Unit>
-		<Unit filename="p06/pingpong.h" />
-		<Unit filename="p06/queue.c">
+		<Unit filename="p08/pingpong.h" />
+		<Unit filename="p08/queue.c">
 			<Option compilerVar="CC" />
 		</Unit>
-		<Unit filename="p06/queue.h" />
+		<Unit filename="p08/queue.h" />
 		<Extensions />
 	</Project>
 </CodeBlocks_project_file>

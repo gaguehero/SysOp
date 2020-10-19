@@ -121,3 +121,32 @@
 	"datatypes.h"
 	"queue.h"
 
+1427482250 source:/home/gueher0/Documents/SistemasOperacionais/p08/pingpong-join.c
+	<stdio.h>
+	<stdlib.h>
+	"pingpong.h"
+
+1602784907 /home/gueher0/Documents/SistemasOperacionais/p08/pingpong.h
+	"datatypes.h"
+
+1603127983 /home/gueher0/Documents/SistemasOperacionais/p08/datatypes.h
+	<ucontext.h>
+
+1602784907 source:/home/gueher0/Documents/SistemasOperacionais/p08/queue.c
+	<stdio.h>
+	<stdlib.h>
+	<assert.h>
+	"queue.h"
+
+1602784907 /home/gueher0/Documents/SistemasOperacionais/p08/queue.h
+
+1603128368 source:/home/gueher0/Documents/SistemasOperacionais/p08/pingpong.c
+	<stdio.h>
+	<stdlib.h>
+	<ucontext.h>
+	<signal.h>
+	<sys/time.h>
+	"pingpong.h"
+	"datatypes.h"
+	"queue.h"
+
