@@ -119,7 +119,7 @@ int task_create (task_t *task, void (*start_routine)(void *),void *arg){
     task->horaInicio = systime();
     task->horaUso = 0;
     task->ativation = 0;
-    task->exitCode = 0;
+    task->exitCode = 1;
     task->acordar = 0;
     return task->tid;
 }
@@ -188,8 +188,10 @@ task_t* scheduler(){
 }
 
 void task_yield () {
+    if(AtualTask!=&Dispatcher){
     queue_append((queue_t **) &filaDeProntas, (queue_t*) AtualTask);
-    task_switch(&Dispatcher);
+    task_switch(&Dispatcher);}
+
 }
 
 
@@ -202,19 +204,23 @@ void dispatcher_body () // dispatcher é uma tarefa
     int userTasks = queue_size((queue_t *)filaDeProntas);
     while ( userTasks > 0 )
     {
-        if(filaSleep){
+        if((filaSleep)&&(*filaSleep!=NULL)){
         aux = (task_t *) filaSleep; //auxiliar para percorrer a fila sleep
             do {
                 auxrem = aux; //auxiliar para remover da fila
-                aux=aux->next;
+                if(!filaSleep)
+                    aux=NULL;
+                else
+                    aux=aux->next;
                 if(auxrem->acordar<=relogio){
                     queue_remove((queue_t **) &filaSleep, (queue_t*) auxrem);
                     queue_append((queue_t **) &filaDeProntas, (queue_t*) auxrem);
                     auxrem->acordar=0;
+                    userTasks++;
                     }
                 auxprim = (task_t *) filaSleep; //auxiliar para checar se chegamos no comeco da fila
             }
-            while(auxprim!=aux);
+            while((auxprim!=aux)&&filaSleep);
         }
         next = scheduler() ; // scheduler é uma função
         if (next)
@@ -231,7 +237,7 @@ void dispatcher_body () // dispatcher é uma tarefa
             next->ativation++;
             // ações após retornar da tarefa "next", se houverem
         }
-    task_exit(0) ; // encerra a tarefa dispatcher
+    task_exit(1) ; // encerra a tarefa dispatcher
 }
 
 void task_setprio (task_t *task, int prio){
@@ -259,7 +265,7 @@ void tratador (int signum)
     else
             ticksTarefa--;
     relogio++;
-    if(!(relogio%1000))//checa a fila sleep de 1 em 1 segundo
+    if(!(relogio%1000)&&(filaSleep&&(*filaSleep!=NULL)))//checa a fila sleep de 1 em 1 segundo
         task_yield();
 }
 
@@ -271,7 +277,7 @@ int task_join (task_t *task){
     task_t *aux;
     aux = AtualTask;
     queue_remove((queue_t **) &filaDeProntas, (queue_t*) aux);
-    while (!(task->exitCode));
+    while ((task->exitCode));
     queue_append((queue_t**) &filaDeProntas, (queue_t*) aux);
     return task->exitCode;
 }
