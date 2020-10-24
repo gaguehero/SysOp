@@ -198,19 +198,21 @@ void dispatcher_body () // dispatcher é uma tarefa
     int tempoInicio;
     task_setUsuario (AtualTask, 0);
     //queue_remove((queue_t **) &filaDeProntas, (queue_t*) &INIT);
-    task_t* next, *aux, *auxprim;
+    task_t* next, *aux, *auxprim, *auxrem;
     int userTasks = queue_size((queue_t *)filaDeProntas);
     while ( userTasks > 0 )
     {
         if(filaSleep){
-        aux = (task_t *) filaSleep;
+        aux = (task_t *) filaSleep; //auxiliar para percorrer a fila sleep
             do {
-                if(aux->acordar<=relogio){
-                    queue_remove((queue_t **) &filaSleep, (queue_t*) aux);
-                    queue_append((queue_t **) &filaDeProntas, (queue_t*) aux);
-                    }
+                auxrem = aux; //auxiliar para remover da fila
                 aux=aux->next;
-                auxprim = (task_t *) filaSleep;
+                if(auxrem->acordar<=relogio){
+                    queue_remove((queue_t **) &filaSleep, (queue_t*) auxrem);
+                    queue_append((queue_t **) &filaDeProntas, (queue_t*) auxrem);
+                    auxrem->acordar=0;
+                    }
+                auxprim = (task_t *) filaSleep; //auxiliar para checar se chegamos no comeco da fila
             }
             while(auxprim!=aux);
         }
@@ -257,7 +259,7 @@ void tratador (int signum)
     else
             ticksTarefa--;
     relogio++;
-    if(!(relogio%1000))
+    if(!(relogio%1000))//checa a fila sleep de 1 em 1 segundo
         task_yield();
 }
 
@@ -275,9 +277,11 @@ int task_join (task_t *task){
 }
 
 void task_sleep (int t){
-    task_t *aux=AtualTask;
-    //queue_remove((queue_t **) &filaDeProntas, (queue_t*) aux);
-    queue_append((queue_t **) &filaSleep, (queue_t*) aux);
-    AtualTask->acordar = relogio + 1000*t;
-    task_yield();
+    if(t){ //bem simples, essa linha só serve pra não colocar na fila se não precisar dormir
+        task_t *aux=AtualTask;
+        //queue_remove((queue_t **) &filaDeProntas, (queue_t*) aux);
+        queue_append((queue_t **) &filaSleep, (queue_t*) aux);
+        AtualTask->acordar = relogio + 1000*t;
+        task_switch(&Dispatcher);
+    }
 }
